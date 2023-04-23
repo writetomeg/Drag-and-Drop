@@ -31,11 +31,6 @@ function getSavedColumns() {
     progressListArray = JSON.parse(localStorage.progressItems);
     completeListArray = JSON.parse(localStorage.completeItems);
     onHoldListArray = JSON.parse(localStorage.onHoldItems);
-  } else {
-    backlogListArray = ['Release the course', 'Sit back and relax'];
-    progressListArray = ['Work on projects', 'Listen to music'];
-    completeListArray = ['Being cool', 'Getting stuff done'];
-    onHoldListArray = ['Being uncool'];
   }
 }
 
@@ -53,6 +48,18 @@ function filterArray(array) {
   const filteredArray = array.filter(item => item !== null);
   return filteredArray;
 }
+// function handleHover(e) {
+//   const deleteButton = document.createElement("button");
+//   deleteButton.classList.add("delete-button");
+//   const deleteIcon = document.createElement("div");
+//   deleteIcon.textContent = '*';
+//   deleteIcon.classList.add("delete-icon");
+//   deleteButton.appendChild(deleteIcon);
+//   e.target.appendChild(deleteButton);
+// }
+// function handleLeave(e) {
+// //    e.target.removeChild(e.target.lastChild);
+// }
 
 // Create DOM Elements for each list item
 function createItemEl(columnEl, column, item, index) {
@@ -64,6 +71,8 @@ function createItemEl(columnEl, column, item, index) {
   listEl.draggable = true;
   listEl.setAttribute('onfocusout', `updateItem(${index}, ${column})`);
   listEl.setAttribute('ondragstart', 'drag(event)');
+  listEl.setAttribute('onmouseenter', "handleHover(event)")
+  listEl.setAttribute('onmouseleave', "handleLeave(event)")
   listEl.contentEditable = true;
 
   // Append
@@ -107,7 +116,7 @@ function updateDOM() {
   onHoldListArray.forEach((onHoldItem, index) => {
     createItemEl(onHoldListEl, 3, onHoldItem, index);
   });
-  onHoldListArray = filterArray(onHoldListArray);
+  onHoldListArray = filterArray([]);
   // Don't run more than once, Update Local Storage
   updatedOnLoad = true;
   updateSavedColumns();
@@ -204,5 +213,9 @@ function drop(e) {
   rebuildArrays();
 }
 
+var obj = {"video": {
+  "value": "<iframe title='YouTube video player' type=\"text/html\" width='40' height='40' src='https://www.youtube.com/embed/2c-KSQmx9SA?cc_load_policy=1' frameborder='0' allowfullscreen></iframe>"
+}}
+document.write(obj.video.value);
 // On Load
 updateDOM();
